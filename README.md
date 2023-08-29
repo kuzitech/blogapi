@@ -26,7 +26,7 @@ To get started with the Blog API, follow these steps:
 3. Run the following command to load the schema into your PostgreSQL database:
 
    ```sh
-   psql -U your_username -d your_database_name -a -f dbSchema.sql
+   psql -h <hostname> -p <port> -U <username> -d <database_name> -a -f dbSchema.sql
 
 ## Configuration
 1. Create a `.env` file in the project root folder and add your database connection details, JWT_SECRET, PORT. A sample `.env copy` is in the folder.
