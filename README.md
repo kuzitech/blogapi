@@ -6,7 +6,7 @@ Welcome to the documentation for the Blog API. This API allows you to manage blo
 
 To get started with the Blog API, follow these steps:
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://github.com/kuzitech/blogapi.git`
 2. Install dependencies: `npm install`
 3. Set up the PostgreSQL database according to the provided schema.
 4. Create a `.env` file and add your database connection details, JWT_SECRET, PORT.
