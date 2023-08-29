@@ -92,7 +92,7 @@ When errors occur, the API responds with an error message and the appropriate st
 
 ## Examples
 
-For detailed usage examples and API endpoints, refer to the [API documentation](/api-documentation.md).
+For detailed usage examples and API endpoints, refer to the [API documentation](https://documenter.getpostman.com/view/10704114/2s9Y5ZwNRW).
 
 ## Available Endpoints
 
