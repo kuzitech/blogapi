@@ -79,6 +79,7 @@ Here are response codes returned by the API:
 | 10010       | SUCCESSFUL                 |
 | 10040       | INVALID                    |
 | 10090       | ERROR                      |
+| 10030       | ACCESS_DENIED              |
 
 ## Authentication
 
