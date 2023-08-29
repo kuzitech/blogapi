@@ -7,7 +7,7 @@ Welcome to the documentation for the Blog API. This API allows you to manage blo
 To get started with the Blog API, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/kuzitech/blogapi.git`
-2. Navigate to the project directory: `cd blogapi``
+2. Navigate to the project directory: `cd blogapi`
 3. Install dependencies: `npm install`
 4. Set up the PostgreSQL database according to the provided schema.
 
@@ -17,8 +17,8 @@ To get started with the Blog API, follow these steps:
 
 ## Setting Up PostgreSQL
 1. Install PostgreSQL on your machine or use a hosted service.
-2. Create a new database for the blog API.
-3. Update the database connection configuration in the `db.js` file.
+2. Create a new database for the blog API or load the schema file by following the instructions below .
+3. Update the database connection configuration in the `db.ts` file if needed or just update the `.env` created earlier.
 
 ## Loading the Database Schema
 1. In the project root directory, locate the `dbSchema.sql` file.
