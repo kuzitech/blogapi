@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import BlogModel from '../models/blogModel';
+import { statusCodes } from '../utils';
 
 const POSTS_PER_PAGE = 10;
 
@@ -17,9 +18,14 @@ export default {
     try {
       const offset = (page - 1) * POSTS_PER_PAGE;
       const blogs = await BlogModel.getAll(offset, POSTS_PER_PAGE);
-      res.json(blogs);
+      res.json({ blogs, status: statusCodes.SUCCESSFUL });
     } catch (error) {
-      res.status(500).json({ error: 'An error occurred while fetching blogs' });
+      res
+        .status(500)
+        .json({
+          error: 'An error occurred while fetching blogs',
+          status: statusCodes.ERROR,
+        });
     }
   },
 
@@ -34,7 +40,9 @@ export default {
     const { title, content } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res
+        .status(400)
+        .json({ errors: errors.array(), status: statusCodes.INVALID });
     }
 
     try {
@@ -42,11 +50,18 @@ export default {
       const blog = await BlogModel.create(newBlog);
       res
         .status(201)
-        .json({ message: 'Blog created successfully', id: blog.id });
+        .json({
+          message: 'Blog created successfully',
+          id: blog.id,
+          status: statusCodes.SUCCESSFUL,
+        });
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'An error occurred while creating the blog' });
+        .json({
+          error: 'An error occurred while creating the blog',
+          status: statusCodes.ERROR,
+        });
     }
   },
 
@@ -63,11 +78,14 @@ export default {
     try {
       const offset = (page - 1) * POSTS_PER_PAGE;
       const blogs = await BlogModel.search(searchTerm, offset, POSTS_PER_PAGE);
-      res.json(blogs);
+      res.json({ blogs, status: statusCodes.SUCCESSFUL });
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'An error occurred while searching blogs' });
+        .json({
+          error: 'An error occurred while searching blogs',
+          status: statusCodes.ERROR,
+        });
     }
   },
 
@@ -84,14 +102,22 @@ export default {
     try {
       const updatedBlog = await BlogModel.edit(parseInt(id), title, content);
       if (updatedBlog) {
-        res.json(updatedBlog);
+        res.json({ updatedBlog, status: statusCodes.SUCCESSFUL });
       } else {
-        res.status(404).json({ error: 'Blog post not found' });
+        res
+          .status(404)
+          .json({
+            error: 'Blog post not found',
+            status: statusCodes.NOT_FOUND,
+          });
       }
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'An error occurred while editing the blog post' });
+        .json({
+          error: 'An error occurred while editing the blog post',
+          status: statusCodes.ERROR,
+        });
     }
   },
 
@@ -107,14 +133,25 @@ export default {
     try {
       const deletedBlog = await BlogModel.delete(parseInt(id));
       if (deletedBlog) {
-        res.json({ message: 'Blog post deleted successfully' });
+        res.json({
+          message: 'Blog post deleted successfully',
+          status: statusCodes.SUCCESSFUL,
+        });
       } else {
-        res.status(404).json({ error: 'Blog post not found' });
+        res
+          .status(404)
+          .json({
+            error: 'Blog post not found',
+            status: statusCodes.NOT_FOUND,
+          });
       }
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'An error occurred while deleting the blog post' });
+        .json({
+          error: 'An error occurred while deleting the blog post',
+          status: statusCodes.ERROR,
+        });
     }
   },
 };

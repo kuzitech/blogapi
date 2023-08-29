@@ -1,0 +1,7 @@
+JWT_SECRET=""
+PORT=3005
+SQL_PWD=""
+SQL_HOST="localhost"
+SQL_PORT=5432
+SQL_USER=""
+SQL_DB="blogApp"

@@ -21,4 +21,5 @@ export const statusCodes = {
   SUCCESSFUL: 10010,
   INVALID: 10040,
   ERROR: 10090,
+  ACCESS_DENIED: 10030,
 };

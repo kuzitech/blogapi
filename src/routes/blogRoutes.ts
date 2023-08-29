@@ -31,7 +31,9 @@ router.post(
   BlogController.createBlog
 );
 router.get('/', (req, res) => {
-  res.send('hello world');
+  res.send(
+    'Welcome to the documentation for the Blog API. This API allows you to manage blog posts and user registration.'
+  );
 });
 
 export default router;

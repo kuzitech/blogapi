@@ -23,6 +23,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 );
 
 -- Insert sample data into the Blog table (optional)
-INSERT INTO blog (title, content) VALUES
+INSERT INTO blogs (title, content) VALUES
   ('First Post', 'This is the content of the first post.'),
   ('Second Post', 'This is the content of the second post.');

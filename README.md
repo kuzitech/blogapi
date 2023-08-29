@@ -7,9 +7,39 @@ Welcome to the documentation for the Blog API. This API allows you to manage blo
 To get started with the Blog API, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/kuzitech/blogapi.git`
-2. Install dependencies: `npm install`
-3. Set up the PostgreSQL database according to the provided schema.
-4. Create a `.env` file and add your database connection details, JWT_SECRET, PORT.
+2. Navigate to the project directory: `cd blogapi``
+3. Install dependencies: `npm install`
+4. Set up the PostgreSQL database according to the provided schema.
+
+## Prerequisites
+- Node.js and npm installed
+- PostgreSQL database setup
+
+## Setting Up PostgreSQL
+1. Install PostgreSQL on your machine or use a hosted service.
+2. Create a new database for the blog API.
+3. Update the database connection configuration in the `db.js` file.
+
+## Loading the Database Schema
+1. In the project root directory, locate the `dbSchema.sql` file.
+2. Open a terminal and navigate to the project directory.
+3. Run the following command to load the schema into your PostgreSQL database:
+
+   ```sh
+   psql -U your_username -d your_database_name -a -f dbSchema.sql
+
+## Configuration
+1. Create a `.env` file in the project root folder and add your database connection details, JWT_SECRET, PORT. A sample `.env copy` is in the folder.
+2. Add the following environment variables:
+   ```
+   PORT=3000
+   JWT_SECRET=your_jwt_secret_key
+   SQL_PWD=""
+   SQL_HOST="localhost"
+   SQL_PORT=5432
+   SQL_USER=""
+   SQL_DB="blogApp"
+   ```
 
 ## Available Endpoints
 
@@ -122,7 +152,3 @@ Contributions to the API are welcome! Please submit a pull request for any impro
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to customize this README template to fit the specifics of your Blog API.

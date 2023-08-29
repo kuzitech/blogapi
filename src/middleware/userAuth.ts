@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { statusCodes } from '../utils';
 
 dotenv.config();
 
@@ -21,7 +22,9 @@ export const verifyToken = (
 ) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized', status: statusCodes.ACCESS_DENIED });
   }
 
   try {
@@ -29,6 +32,12 @@ export const verifyToken = (
     req.userId = (decodedToken as any).userId;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Unauthorized', message: error });
+    res
+      .status(401)
+      .json({
+        error: 'Unauthorized',
+        message: error,
+        status: statusCodes.ACCESS_DENIED,
+      });
   }
 };
