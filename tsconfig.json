@@ -1,0 +1,13 @@
+// tsconfig.json
+{
+  "compilerOptions": {
+    "importHelpers": true,
+    "moduleResolution": "node",
+  },
+  "include": [
+    "src/**/**/*.ts",
+    "src/types.d.ts"
+  ],
+  "exclude": ["test"],
+  "files":["src/types.d.ts"]
+}
