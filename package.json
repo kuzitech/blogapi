@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx ts-node index.ts",
     "server": "nodemon ./index.ts",
-    "test": "npx jest"
+    "test": "npx jest",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
