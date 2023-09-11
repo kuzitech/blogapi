@@ -32,12 +32,10 @@ export const verifyToken = (
     req.userId = (decodedToken as any).userId;
     next();
   } catch (error) {
-    res
-      .status(401)
-      .json({
-        error: 'Unauthorized',
-        message: error,
-        status: statusCodes.ACCESS_DENIED,
-      });
+    res.status(401).json({
+      error: 'Unauthorized',
+      message: error,
+      status: statusCodes.ACCESS_DENIED,
+    });
   }
 };

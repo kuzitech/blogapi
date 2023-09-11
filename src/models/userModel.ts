@@ -14,8 +14,21 @@ export default {
    * @param username
    * @returns string username
    */
-  findByUsername: (username: string) =>
-    db.oneOrNone<User>('SELECT * FROM users WHERE username = $1', username),
+  findByUsername: async (username: string) => {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          username: username,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 
   /**
    * Find user by email
@@ -24,17 +37,40 @@ export default {
    * @param email string
    * @returns
    */
-  findByEmailOrUsername: (username: string, email: string) =>
-    db.oneOrNone('SELECT * FROM users WHERE username = $1 OR email = $2', [
-      username,
-      email,
-    ]),
+  findByEmailOrUsername: async (username: string, email: string) => {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          OR: [{ username }, { email }],
+        },
+      });
+
+      return user;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 
   /**
    *
    * @param email string
    * @returns
    */
-  findByEmail: (email: string) =>
-    db.oneOrNone('SELECT * FROM users WHERE email = $1', email),
+  findByEmail: async (email: string) => {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          email,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 };

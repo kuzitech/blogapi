@@ -4,7 +4,9 @@ interface Blog {
   id?: number;
   title: string;
   content: string;
+  image?: string;
   created_at?: Date;
+  userId: string | null;
 }
 
 export default {
@@ -15,11 +17,23 @@ export default {
    * @param limit
    * @returns array paginated blog posts
    */
-  getAll: (offset: number, limit: number) =>
-    db.manyOrNone<Blog>(
-      'SELECT * FROM blogs ORDER BY created_at DESC OFFSET $1 LIMIT $2',
-      [offset, limit]
-    ),
+  getAll: async (offset: number, limit: number) => {
+    try {
+      const blogs = await db.blog.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return blogs;
+    } catch (error) {
+      throw error;
+    } finally {
+      db.$disconnect();
+    }
+  },
 
   /**
    * sql - add a new blog post
@@ -27,11 +41,38 @@ export default {
    * @param blog
    * @returns number post-id
    */
-  create: (blog: Blog) =>
-    db.one('INSERT INTO blogs (title, content) VALUES ($1, $2) RETURNING id', [
-      blog.title,
-      blog.content,
-    ]),
+  create: async (blog: Blog) => {
+    try {
+      const user = await db.user.findUnique({
+        where: {
+          id: blog.userId,
+        },
+      });
+
+      if (!user) {
+        throw new Error('User not found or not allowed to post');
+      }
+
+      const newBlog = await db.blog.create({
+        data: {
+          title: blog.title,
+          content: blog.content,
+          image: blog.image,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+
+      return newBlog;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 
   /**
    * sql - search through posts
@@ -41,11 +82,38 @@ export default {
    * @param limit
    * @returns Array paginated blog post
    */
-  search: (searchTerm: string, offset: number, limit: number) =>
-    db.manyOrNone<Blog>(
-      'SELECT * FROM blogs WHERE title ILIKE $1 OR content ILIKE $1 ORDER BY created_at DESC OFFSET $2 LIMIT $3',
-      [`%${searchTerm}%`, offset, limit]
-    ),
+  search: async (searchTerm: string, offset: number, limit: number) => {
+    try {
+      console.log(searchTerm);
+      return await db.blog.findMany({
+        skip: offset,
+        take: limit,
+        where: {
+          OR: [
+            {
+              title: {
+                contains: searchTerm,
+                mode: 'insensitive',
+              },
+            },
+            {
+              content: {
+                contains: searchTerm,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 
   /**
    * sql - edit blog posts by id
@@ -55,11 +123,25 @@ export default {
    * @param content
    * @returns Array edited post
    */
-  edit: (id: number, title: string, content: string) =>
-    db.oneOrNone<Blog>(
-      'UPDATE blogs SET title = $1, content = $2 WHERE id = $3 RETURNING *',
-      [title, content, id]
-    ),
+  edit: async (id: number, title: string, content: string) => {
+    try {
+      const updatedBlog = await db.blog.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title,
+          content,
+        },
+      });
+
+      return updatedBlog;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
 
   /**
    * sql - delete blog post by id
@@ -67,10 +149,88 @@ export default {
    * @param id
    * @returns boolean
    */
-  delete: (id: number) =>
-    db.result(
-      'DELETE FROM blogs WHERE id = $1',
-      id,
-      (result) => result.rowCount > 0
-    ),
+  delete: async (id: number) => {
+    try {
+      const deleteBlog = await db.blog.delete({
+        where: {
+          id,
+        },
+      });
+
+      return deleteBlog;
+    } catch (error) {
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  },
+
+  /**
+   * get a user's posts
+   * @param userId
+   * @returns Array
+   */
+  getBlogsByUserId: async (userId: string, offset: number, limit: number) => {
+    try {
+      const blogs = await db.blog.findMany({
+        where: {
+          userId,
+        },
+        skip: offset,
+        take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+      return blogs;
+    } catch (error) {
+      throw new Error(`Error fetching blogs by user ID: ${error}`);
+    } finally {
+      await db.$disconnect();
+    }
+  },
+
+  /**
+   * get a user's posts
+   * @param userId
+   * @returns Array
+   */
+  searchBlogsByUserId: async (
+    userId: string,
+    searchTerm: string,
+    offset: number,
+    limit: number
+  ) => {
+    try {
+      const blogs = await db.blog.findMany({
+        where: {
+          userId,
+          AND: [
+            {
+              title: {
+                contains: searchTerm,
+                mode: 'insensitive',
+              },
+            },
+            {
+              content: {
+                contains: searchTerm,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+        skip: offset,
+        take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+      return blogs;
+    } catch (error) {
+      throw new Error(`Error fetching blogs by user ID: ${error}`);
+    } finally {
+      await db.$disconnect();
+    }
+  },
 };

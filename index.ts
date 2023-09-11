@@ -2,10 +2,20 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import blogRoutes from './src/routes/blogRoutes';
 import * as dotenv from 'dotenv';
+import * as morgan from 'morgan';
+import * as cors from 'cors';
+import * as path from 'path';
+import helmet from 'helmet';
 
 const app = express();
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 dotenv.config();
-app.use(bodyParser.json());
+app.use(morgan('combined'));
+app.use(bodyParser.json({ limit: '30mb' }));
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+app.use(cors());
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 app.use('/api', blogRoutes);
 

@@ -65,10 +65,13 @@ export default {
       }
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = { username, password: hashedPassword, email };
-      await db.one(
-        'INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING id',
-        [newUser.username, newUser.password, newUser.email]
-      );
+      await db.user.create({
+        data: {
+          username: newUser.username,
+          password: newUser.password,
+          email: newUser.email,
+        },
+      });
       res.status(201).json({
         message: 'User registered successfully',
         status: statusCodes.SUCCESSFUL,
@@ -118,7 +121,12 @@ export default {
       // if (!token) {
       //   return res.status(500).json({ error: 'Error while creating token' });
       // }
-      res.json({ timespan: '1 hour', token, status: statusCodes.SUCCESSFUL });
+      res.json({
+        timespan: '1 hour',
+        token,
+        status: statusCodes.SUCCESSFUL,
+        userId: user.id,
+      });
     } catch (error) {
       res.status(500).json({ error: 'An error occurred while logging in' });
     }
