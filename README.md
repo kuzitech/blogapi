@@ -15,6 +15,8 @@ To get started with the Blog API, follow these steps:
 - Node.js and npm installed
 - PostgreSQL database setup
 
+## (using main version)
+
 ## Setting Up PostgreSQL
 1. Install PostgreSQL on your machine or use a hosted service.
 2. Create a new database for the blog API or load the schema file by following the instructions below .
@@ -28,6 +30,14 @@ To get started with the Blog API, follow these steps:
    ```sh
    psql -h <hostname> -p <port> -U <username> -d <database_name> -a -f dbSchema.sql
 
+## (using usePrisma version)
+
+## Loading the Database Schema
+1. In the project root directory, locate the `schema.prisma` file in the prisma folder.
+2. Open a terminal and navigate to the project directory.
+3. Install prisma `npm install prisma`.
+4. Generate the prisma schema `npx prisma generate`.
+
 ## Configuration
 1. Create a `.env` file in the project root folder and add your database connection details, JWT_SECRET, PORT. A sample `.env copy` is in the folder.
 2. Add the following environment variables:
@@ -39,21 +49,25 @@ To get started with the Blog API, follow these steps:
    SQL_PORT=5432
    SQL_USER=""
    SQL_DB="blogApp"
+   SQL_URL="postgres://[database_user]:[database_password]@localhost:5432/blogApp"
    ```
+3. Replace `database_user` and `database_password` with your database details respectively.
 
 ## Available Endpoints
 
 The API provides the following endpoints:
 
-| Method | Endpoint                 | Description               |
-|--------|--------------------------|---------------------------|
-| GET    | /api/posts               | Get all blog posts        |
-| GET    | /api/posts/:id           | Get a specific blog post  |
-| POST   | /api/posts               | Create a new blog post    |
-| PUT    | /api/posts/:id           | Update a blog post        |
-| DELETE | /api/posts/:id           | Delete a blog post        |
-| POST   | /api/register            | Register a new user       |
-| POST   | /api/login               | Log in a user             |
+| Method | Endpoint                          | Description                           |
+|--------|-----------------------------------|---------------------------------------|
+| GET    | /api/posts                        | Get all blog posts                    |
+| GET    | /api/posts/:id                    | Get a specific blog post              |
+| GET    | /api/user/:userId/blogs           | Get a specific user blog post         |
+| GET    | /api/user/:userId/blogs/search    | Search from specific user blog post   |
+| POST   | /api/posts                        | Create a new blog post                |
+| PUT    | /api/posts/:id                    | Update a blog post                    |
+| DELETE | /api/posts/:id                    | Delete a blog post                    |
+| POST   | /api/register                     | Register a new user                   |
+| POST   | /api/login                        | Log in a user                         |
 
 ## Status Codes
 
@@ -130,6 +144,13 @@ For detailed usage examples and API endpoints, refer to the [API documentation](
 
 **Parameters:**
 - `:id` (URL parameter) - The ID of the blog post.
+
+### Delete a Blog Post
+
+**Endpoint:** `DELETE /api/user/:userId/blogs`
+
+**Parameters:**
+- `:userId` (URL parameter) - The ID of the user.
 
 ### User Registration
 
