@@ -1,9 +1,9 @@
-import * as express from 'express';
+import express from 'express';
 import * as bodyParser from 'body-parser';
 import blogRoutes from './src/routes/blogRoutes';
 import * as dotenv from 'dotenv';
-import * as morgan from 'morgan';
-import * as cors from 'cors';
+import morgan from 'morgan';
+import cors from 'cors';
 import * as path from 'path';
 import helmet from 'helmet';
 

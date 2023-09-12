@@ -2,9 +2,8 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import UserController from '../controllers/userController';
 import BlogController from '../controllers/blogController';
-import FileController from '../controllers/fileController';
 import { verifyToken } from '../middleware/userAuth';
-import * as multer from 'multer';
+import multer from 'multer';
 import fileController from '../controllers/fileController';
 
 const router = Router();
