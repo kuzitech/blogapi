@@ -1,6 +1,7 @@
 # Blog API Documentation
 
 Welcome to the documentation for the Blog API. This API allows you to manage blog posts and user registration.
+Live URL: https://blogapi-pi.vercel.app/api/
 
 ## Getting Started
 
