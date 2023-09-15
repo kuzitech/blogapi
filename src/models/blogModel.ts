@@ -6,7 +6,7 @@ interface Blog {
   content: string;
   image?: string;
   created_at?: Date;
-  userId: string | null;
+  userId: string | undefined;
 }
 
 export default {

@@ -5,19 +5,22 @@ import BlogController from '../controllers/blogController';
 import { verifyToken } from '../middleware/userAuth';
 import multer from 'multer';
 import fileController from '../controllers/fileController';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination(req, file, callback) {
-    callback(null, 'public/assets');
-  },
-  filename(req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
+
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
 
 // User routes
 router.post('/register', UserController.registerUser);
@@ -59,7 +62,7 @@ router.post(
 );
 router.get('/', (req, res) => {
   res.send(
-    'Welcome to the documentation for the Blog API. This API allows you to manage blog posts and user registration.'
+    `<h1>Welcome to the documentation for the Blog API.</h1><p> This API allows you to manage blog posts and user registration.</p> <p>Follow the documentation <a href="https://documenter.getpostman.com/view/10704114/2s9Y5ZwNRW">here</a> to preview the endpoints and its samples on postman. Enjoy 🚀</p>`
   );
 });
 

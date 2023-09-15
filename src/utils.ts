@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+const JWT_SECRET: string | undefined = process.env.JWT_SECRET;
 /**
  * generate test token for the test cases
  *
@@ -12,8 +12,7 @@ export const generateTestToken = () => {
   const payload = {
     userId: 'cdda23f9-b48d-42e6-913c-f9cd910363ab',
   };
-  console.log(process.env.JWT_SERCRET);
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign(payload, JWT_SECRET!, { expiresIn: '1h' });
 };
 
 export const statusCodes = {

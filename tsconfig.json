@@ -4,15 +4,20 @@
     "importHelpers": true,
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "target": "esnext",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "skipLibCheck": true
   },
-  "lib": ["ES2016"],
+  "lib": ["es2016"],
   "include": [
-    "src/**/**/*.ts",
-    "src/types.d.ts"
+    "src/**/*.ts",
+    "src/types.d.ts",
+    "./api/*.ts"
   ],
   "exclude": ["test"],
   "files":["src/types.d.ts"]

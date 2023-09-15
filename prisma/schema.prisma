@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("REMOTE_URL")
+  url      = env("SQL_URL")
 }
 
 model Blog {

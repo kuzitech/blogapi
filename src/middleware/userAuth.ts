@@ -2,10 +2,11 @@ import * as dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { statusCodes } from '../utils';
+import { GetPublicKeyOrSecret } from 'jsonwebtoken';
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET: string | undefined = process.env.JWT_SECRET;
 
 /**
  * verify jwt token for authorization
@@ -28,7 +29,7 @@ export const verifyToken = (
   }
 
   try {
-    const decodedToken = jwt.verify(token, JWT_SECRET);
+    const decodedToken = jwt.verify(token, JWT_SECRET!);
     req.userId = (decodedToken as any).userId;
     next();
   } catch (error) {

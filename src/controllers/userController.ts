@@ -8,7 +8,7 @@ import { statusCodes } from '../utils';
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET: string | undefined = process.env.JWT_SECRET;
 const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[$#!@+=\-?()%]).{8,20}$/;
@@ -115,7 +115,7 @@ export default {
         });
       }
 
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET!, {
         expiresIn: '1h',
       });
       // if (!token) {
@@ -158,7 +158,7 @@ export default {
           status: statusCodes.NOT_FOUND,
         });
       }
-      delete user.password;
+      delete (user as any).password;
       return res.status(200).json({ status: statusCodes.SUCCESSFUL, user });
     } catch (error) {
       return res

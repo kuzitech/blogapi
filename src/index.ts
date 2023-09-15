@@ -1,6 +1,6 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
-import blogRoutes from './src/routes/blogRoutes';
+import blogRoutes from './routes/blogRoutes';
 import * as dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
