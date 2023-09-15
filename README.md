@@ -129,7 +129,7 @@ For detailed usage examples and API endpoints, refer to the [API documentation](
 **Endpoint:** `POST /api/posts`
 
 **Parameters:**
-- Request Body: Blog post data (title, content).
+- Request Body: Blog post data (title, content, image-(optional), userID).
 
 ### Update a Blog Post
 
