@@ -69,6 +69,7 @@ The API provides the following endpoints:
 | DELETE | /api/posts/:id                    | Delete a blog post                    |
 | POST   | /api/register                     | Register a new user                   |
 | POST   | /api/login                        | Log in a user                         |
+| POST   | /api/upload                       | Upload an image for blog post         |
 
 ## Status Codes
 
